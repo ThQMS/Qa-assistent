@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Verificar sintaxe do backend
+        run: |
+          node --check src/server.js
+          node --check src/routes/analyze.js
+          node --check src/routes/chat.js
+          node --check src/services/groqService.js
+          node --check src/services/truncate.js
+          node --check src/services/textUtils.js
+          node --check src/services/pdfParser.js
+          node --check src/services/docxParser.js
+
+      - name: Compilar frontend (app.jsx -> app.js)
+        run: npm run build:front
+
+      - name: Testes unitários (offline, sem API)
+        run: npm test
+
+      - name: Auditoria de dependências
+        run: npm audit --audit-level=high
