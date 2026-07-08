@@ -1,0 +1,46 @@
+{
+  "name": "qa-assistent-backend",
+  "version": "1.0.0",
+  "description": "Assistente local de QA: analisa documentação e gera critérios, cenários, estimativas e demais artefatos de teste prontos para o Jira.",
+  "license": "MIT",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": "src/server.js",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "build:front": "node compile-frontend.cjs",
+    "test": "node --test test/unit.test.js",
+    "eval": "node test/eval.js",
+    "prepackage:win": "node compile-frontend.cjs && node set-icon.cjs",
+    "prepackage:mac": "node compile-frontend.cjs",
+    "package:win": "pkg . --target node22-win-x64 --output \"../Qa Assistent-app/Qa-Assistent.exe\"",
+    "package:mac": "pkg . --target node22-macos-x64 --output ../dist/Qa-Assistent-mac"
+  },
+  "pkg": {
+    "assets": [
+      "public/**/*"
+    ],
+    "scripts": [
+      "src/**/*.js"
+    ]
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.0",
+    "express-rate-limit": "^7.2.0",
+    "groq-sdk": "^0.9.0",
+    "helmet": "^7.1.0",
+    "mammoth": "^1.12.0",
+    "multer": "^2.2.0",
+    "pdf-parse": "^1.1.1"
+  },
+  "devDependencies": {
+    "@yao-pkg/pkg": "^6.21.0",
+    "png-to-ico": "^3.0.2",
+    "rcedit": "^5.0.2"
+  }
+}

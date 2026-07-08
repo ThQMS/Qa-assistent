@@ -1,0 +1,12 @@
+# dependências e ambiente
+node_modules/
+.env
+
+# artefatos de build/entrega (o exe é distribuído via Release, não pelo git)
+dist/
+*.exe
+
+# logs e lixo de SO
+*.log
+Thumbs.db
+.DS_Store
